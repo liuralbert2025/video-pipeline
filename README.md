@@ -5,8 +5,6 @@ content: it transcribes the audio, works out *who is speaking*, rewrites and
 re-voices the narration, cuts and reformats the video, generates a thumbnail,
 and uploads the result — without a human in the loop.
 
-Built during a summer research position at **Peking University, School of
-Computer Science** (advisor: Prof. Bian Kaigui).
 
 ---
 
