@@ -1,0 +1,110 @@
+YouTube Data API setup — one time, ~15 minutes
+==============================================
+
+Goal: get a file called client_secret.json next to upload_youtube_api.py.
+After that, uploads need no browser and no sign-in ever again.
+
+Use the SAME Google account that owns the YouTube channel you're uploading to.
+
+
+STEP 1 — Create a project
+-------------------------
+  1. Go to  https://console.cloud.google.com/
+  2. Sign in with your YouTube account.
+  3. Top bar, project dropdown -> "New Project".
+  4. Name it anything (e.g. "video-uploader") -> Create.
+  5. Make sure that new project is selected in the top bar afterwards.
+
+
+STEP 2 — Enable the YouTube Data API
+------------------------------------
+  1. Left menu: "APIs & Services" -> "Library"
+     (or go to https://console.cloud.google.com/apis/library )
+  2. Search:  YouTube Data API v3
+  3. Click it -> "Enable".
+
+
+STEP 3 — Configure the consent screen
+-------------------------------------
+  1. Left menu: "APIs & Services" -> "OAuth consent screen"
+  2. User type: choose "External" -> Create.
+  3. Fill only the required fields:
+       App name:            anything (e.g. "My Uploader")
+       User support email:  your email
+       Developer contact:   your email
+     Save and Continue.
+  4. Scopes page: just Save and Continue (we request the scope in code).
+  5. Test users page: click "+ ADD USERS" and add YOUR OWN email address.
+     ** This step matters. ** While the app is in "Testing" mode, only
+     listed test users can authorize it. Add yourself or step 5 will fail.
+     Save and Continue.
+
+  Note: you do NOT need to publish the app or get it verified. Testing mode
+  is fine for your own channel. (Tokens in testing mode can expire after a
+  while — if uploads stop working months from now, just re-run the script and
+  approve again, or click "Publish app" on this screen.)
+
+
+STEP 4 — Create the credentials
+-------------------------------
+  1. Left menu: "APIs & Services" -> "Credentials"
+  2. "+ CREATE CREDENTIALS" -> "OAuth client ID"
+  3. Application type:  Desktop app      <-- important, not "Web application"
+  4. Name it anything -> Create.
+  5. In the popup, click "DOWNLOAD JSON".
+  6. Rename the downloaded file to exactly:   client_secret.json
+  7. Move it into your Uploaders folder, next to upload_youtube_api.py
+
+
+STEP 5 — Install and authorize
+------------------------------
+  In PowerShell, in the Uploaders folder:
+
+      pip install google-api-python-client google-auth-oauthlib google-auth-httplib2
+      python upload_youtube_api.py --privacy private
+
+  A browser opens asking you to allow the app.
+    - Pick the Google account that owns your channel.
+    - You'll likely see "Google hasn't verified this app" — that's expected for
+      your own test app. Click "Advanced" -> "Go to <app name> (unsafe)".
+      It's your own app; this warning just means it hasn't gone through
+      Google's public review, which isn't needed for personal use.
+    - Click Allow.
+
+  It saves youtube_token.json and uploads whatever is in videos/.
+  From then on it reuses that token — no browser, no login.
+
+
+AFTERWARDS
+----------
+  Normal use:
+      python upload_youtube_api.py                    # private (safe default)
+      python upload_youtube_api.py --privacy public   # when you're confident
+      python upload_youtube_api.py --file videos/test.mp4
+
+  Files it expects in videos/:
+      test.mp4   the video
+      test.txt   {"title": "...", "tags": ["a","b"]}   (optional)
+      test.jpg   thumbnail (optional; custom thumbnails need a verified channel)
+
+  It adds #Shorts to the description automatically. A video is treated as a
+  Short when it's vertical 9:16 and 60 seconds or less.
+
+
+THINGS THAT MIGHT TRIP YOU UP
+-----------------------------
+  "access_denied" / "app is blocked"
+      You didn't add your email as a Test User in step 3.5.
+
+  "client_secret.json not found"
+      Wrong filename or wrong folder. It must sit beside the .py file.
+
+  "quotaExceeded"
+      Each upload costs 1600 quota units of a daily allowance. If you upload a
+      lot in one day you'll hit the cap; it resets every 24 hours.
+
+  "The request metadata is invalid" / title errors
+      Titles are capped at 100 characters; the script trims automatically.
+
+  Keep youtube_token.json private — it grants upload access to your channel.
+  Don't commit it anywhere public.

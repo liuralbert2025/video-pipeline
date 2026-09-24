@@ -1,0 +1,24 @@
+# Core pipeline
+# ffmpeg must also be installed and on PATH (not a pip package):
+#   macOS:   brew install ffmpeg
+#   Windows: winget install Gyan.FFmpeg
+
+openai-whisper          # timestamped speech-to-text
+torch                   # Whisper + pyannote backend; install the CUDA build for GPU:
+                        #   pip install torch --index-url https://download.pytorch.org/whl/cu126
+torchaudio              # must match the torch version exactly, or you get WinError 127
+numpy>=2.0
+pyannote.audio>=4.0     # speaker diarization (needs a HuggingFace token)
+soundfile               # WAV decoding, so pyannote doesn't need torchcodec/FFmpeg DLLs
+scipy                   # fallback WAV decoder
+scikit-learn            # TF-IDF + cosine similarity for the TextRank selector
+openai>=1.0             # any OpenAI-compatible endpoint (DeepSeek, Qwen, Zhipu)
+edge-tts                # free Microsoft neural TTS (CLI; no API key)
+opencv-python==4.11.0.86  # pinned: OpenCV 5.x dropped cv2.CascadeClassifier
+Pillow                  # caption + thumbnail rendering
+
+# Uploaders (optional — only needed if you publish automatically)
+google-api-python-client
+google-auth-oauthlib
+google-auth-httplib2
+selenium>=4.6           # TikTok uploader; 4.6+ auto-manages ChromeDriver

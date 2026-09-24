@@ -1,0 +1,31 @@
+{
+    "accounts": [
+        {
+            "id": "account_1",
+            "name": "Main channel",
+            "enabled": true,
+            "profile_dir": "chrome_profile_account_1",
+            "max_uploads_per_day": 10,
+            "chrome_binary_path": ""
+        },
+        {
+            "id": "account_2",
+            "name": "Second channel",
+            "enabled": false,
+            "profile_dir": "chrome_profile_account_2",
+            "max_uploads_per_day": 5,
+            "chrome_binary_path": ""
+        }
+    ],
+    "shared_settings": {
+        "video_save_dir": "videos",
+        "use_schedule": false
+    },
+    "_notes": {
+        "profile_dir": "Each account keeps its own Chrome profile (its logins). One profile can be logged into BOTH YouTube and TikTok.",
+        "chrome_binary_path": "Leave empty to use the system-installed Chrome. Set a path only if you use a standalone Chrome.",
+        "video_save_dir": "Folder holding the .mp4 files (relative to this folder or absolute). Each video may have a same-name .txt = {\"title\":\"...\",\"tags\":[\"a\",\"b\"]} and optional same-name .jpg/.png thumbnail.",
+        "use_schedule": "false = upload immediately one after another (good for testing). true = spread across the 06-09/11-14/17-23 windows.",
+        "max_uploads_per_day": "Cap on how many videos this account uploads per run."
+    }
+}

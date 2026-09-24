@@ -1,0 +1,53 @@
+# --- secrets: never commit these ---
+client_secret.json
+youtube_token.json
+*token*.json
+.env
+*.key
+
+# --- browser profiles (contain session cookies = account access) ---
+chrome_profile_*/
+uploader_profiles/
+chrome_user_data/
+
+# --- media: large, and source clips are third-party content ---
+*.mp4
+*.mp3
+*.wav
+*.jpg
+*.jpeg
+*.png
+tts/
+videos/
+_clips_tmp/
+_frames_tmp/
+
+# --- generated intermediates ---
+*_audio.json
+*_audio.txt
+*_16k.wav
+diarization.json
+labeled_transcript.json
+labeled_reclassified.json
+narrator_blocks.json
+drama_blocks.json
+rewritten_narration.json
+tts_manifest.json
+clips.json
+cover_frame.json
+title.txt
+subtitle.txt
+
+# --- python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# --- os ---
+.DS_Store
+Thumbs.db
+
+.Rhistory
+.idea/
+.vscode/
