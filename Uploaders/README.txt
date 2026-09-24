@@ -1,6 +1,14 @@
 YouTube Shorts + TikTok auto-uploaders (Selenium)
 =================================================
 
+NOTE ON THE YOUTUBE UPLOADER
+  upload_youtube_api.py (official YouTube Data API v3) is the one to use.
+  upload_youtube.py drives YouTube Studio through Selenium and is kept for
+  reference only — Google blocks sign-in from automated browsers, so it can't
+  authenticate reliably. The API version needs a one-time OAuth consent and
+  then runs headless forever. See SETUP_YOUTUBE_API.txt.
+  The TikTok uploader is still Selenium-based (TikTok's Content Posting API
+  requires an approved developer app).
 Ported from the Douyin uploader, same idea: a persistent Chrome login profile
 per account, per-video metadata from a same-name .txt file, optional scheduling.
 These drive the real YouTube Studio / TikTok upload pages in a logged-in
